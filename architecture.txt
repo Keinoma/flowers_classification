@@ -1,0 +1,84 @@
+code/
+├── data/
+│   ├── 5_classes/              ← Dataset actif
+│   │    ├── Lilly/
+│   │    ├── Lotus/
+│   │    ├── Orchid/
+│   │    ├── Sunflower/
+│   │    └── Tulip/
+│   │
+│   └── 17_classes/             ← Dataset alternatif
+│
+├── src0/                       ← Ancienne version (ResNet50)
+│   ├── checkpoints/
+│   │    ├── best_model.pth
+│   │    ├── train_curves.png
+│   │    └── confmat_0.png
+│   ├── results/
+│   │    ├── results.txt
+│   │    ├── classes_distribution.png
+│   │    └── gradcam_missclassified.png
+│   ├── __init__.py
+│   ├── load_data.py
+│   ├── main.py
+│   ├── model.py
+│   ├── predict.py
+│   └── train.py
+│
+├── src1/                       ← BASELINE — CNN from scratch, SANS data augmentation
+│   ├── checkpoints/
+│   │    ├── best_model.pth
+│   │    ├── train_curves.png
+│   │    └── confmat_1.png
+│   ├── results/
+│   │    └── (fichiers générés par les runs)
+│   ├── __init__.py
+│   ├── conf_mat.py
+│   ├── grad_cam.py
+│   ├── load_data.py
+│   ├── main.py
+│   ├── model.py
+│   ├── predict.py
+│   └── train.py
+│
+├── src2/                       ← GROUPE A — Même CNN + data augmentation complète
+│   ├── checkpoints/
+│   │    ├── best_model_A.pth
+│   │    ├── train_curves_A.png
+│   │    ├── conf_matrix_A.png
+│   │    └── 5_classes_distrib_A.png
+│   ├── results/
+│   │    ├── evaluation_report_A.json
+│   │    ├── evaluation_summary_A.txt
+│   │    ├── confusion_matrix_A.png
+│   │    ├── confusion_matrix_normalized_A.png
+│   │    ├── confusion_matrix_A.csv
+│   │    ├── roc_curves_A.png
+│   │    ├── reliability_diagram_A.png
+│   │    ├── kfold_boxplot_A.png
+│   │    ├── inference_throughput_A.png
+│   │    └── confidence_distribution_A.png
+│   ├── __init___A.py
+│   ├── compare_groups.py       ← Script transverse (peut être lancé depuis n'importe où)
+│   ├── conf_mat_A.py
+│   ├── evaluate_model_A.py
+│   ├── load_data_A.py
+│   ├── main_A.py
+│   ├── model_A.py
+│   ├── predict_A.py
+│   └── train_A.py
+│
+└── src3/
+    ├── checkpoints/            ← Sera rempli par les runs (best_model_B.pth, etc.)
+    ├── comapre/
+    │    ├── compare_groups.py
+    │    └── compare_groups_B.py                       
+    ├── results/                ← Sera rempli par evaluate_model_B.py
+    ├── __init___B.py           ← (optionnel)
+    ├── conf_mat_B.py           ← Reproduction matrice de confusion
+    ├── evaluate_model_B.py     ← Évaluation exhaustive
+    ├── load_data_B.py          ← (ou réutilise load_data_A.py)
+    ├── main_B.py               ← Orchestration (seed, config, entraînement)
+    ├── model_B.py              ← ResNet50 pré-entraîné + backbone gelé
+    ├── predict_B.py            ← Inférence CLI
+    └── train_B.py              ← Trainer (même logique, peut-être LR différent)

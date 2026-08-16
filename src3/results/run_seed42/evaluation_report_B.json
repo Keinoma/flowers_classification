@@ -1,0 +1,340 @@
+{
+  "classification_metrics": {
+    "accuracy": 0.8957915831663327,
+    "accuracy_percent": 89.57915831663327,
+    "precision": {
+      "macro": 0.8951650127572321,
+      "micro": 0.8957915831663327,
+      "weighted": 0.899317726518031,
+      "per_class": {
+        "Lilly": 0.8076923076923077,
+        "Lotus": 0.8316831683168316,
+        "Orchid": 0.9222222222222223,
+        "Sunflower": 0.9911504424778761,
+        "Tulip": 0.9230769230769231
+      }
+    },
+    "recall": {
+      "macro": 0.8931708120271866,
+      "micro": 0.8957915831663327,
+      "weighted": 0.8957915831663327,
+      "per_class": {
+        "Lilly": 0.865979381443299,
+        "Lotus": 0.9130434782608695,
+        "Orchid": 0.8469387755102041,
+        "Sunflower": 0.9739130434782609,
+        "Tulip": 0.865979381443299
+      }
+    },
+    "f1_score": {
+      "macro": 0.8930678203595279,
+      "micro": 0.8957915831663327,
+      "weighted": 0.8964984980318106,
+      "per_class": {
+        "Lilly": 0.835820895522388,
+        "Lotus": 0.8704663212435233,
+        "Orchid": 0.8829787234042553,
+        "Sunflower": 0.9824561403508771,
+        "Tulip": 0.8936170212765957
+      }
+    },
+    "classification_report": {
+      "Lilly": {
+        "precision": 0.8076923076923077,
+        "recall": 0.865979381443299,
+        "f1-score": 0.835820895522388,
+        "support": 97.0
+      },
+      "Lotus": {
+        "precision": 0.8316831683168316,
+        "recall": 0.9130434782608695,
+        "f1-score": 0.8704663212435233,
+        "support": 92.0
+      },
+      "Orchid": {
+        "precision": 0.9222222222222223,
+        "recall": 0.8469387755102041,
+        "f1-score": 0.8829787234042553,
+        "support": 98.0
+      },
+      "Sunflower": {
+        "precision": 0.9911504424778761,
+        "recall": 0.9739130434782609,
+        "f1-score": 0.9824561403508771,
+        "support": 115.0
+      },
+      "Tulip": {
+        "precision": 0.9230769230769231,
+        "recall": 0.865979381443299,
+        "f1-score": 0.8936170212765957,
+        "support": 97.0
+      },
+      "accuracy": 0.8957915831663327,
+      "macro avg": {
+        "precision": 0.8951650127572321,
+        "recall": 0.8931708120271866,
+        "f1-score": 0.8930678203595279,
+        "support": 499.0
+      },
+      "weighted avg": {
+        "precision": 0.899317726518031,
+        "recall": 0.8957915831663327,
+        "f1-score": 0.8964984980318106,
+        "support": 499.0
+      }
+    },
+    "validation_loss": null,
+    "validation_accuracy": 89.1891891891892
+  },
+  "confusion_matrix": {
+    "raw": [
+      [
+        84,
+        7,
+        4,
+        0,
+        2
+      ],
+      [
+        3,
+        84,
+        1,
+        0,
+        4
+      ],
+      [
+        11,
+        2,
+        83,
+        1,
+        1
+      ],
+      [
+        1,
+        1,
+        1,
+        112,
+        0
+      ],
+      [
+        5,
+        7,
+        1,
+        0,
+        84
+      ]
+    ],
+    "normalized": [
+      [
+        0.865979381443299,
+        0.07216494845360824,
+        0.041237113402061855,
+        0.0,
+        0.020618556701030927
+      ],
+      [
+        0.03260869565217391,
+        0.9130434782608695,
+        0.010869565217391304,
+        0.0,
+        0.043478260869565216
+      ],
+      [
+        0.11224489795918367,
+        0.02040816326530612,
+        0.8469387755102041,
+        0.01020408163265306,
+        0.01020408163265306
+      ],
+      [
+        0.008695652173913044,
+        0.008695652173913044,
+        0.008695652173913044,
+        0.9739130434782609,
+        0.0
+      ],
+      [
+        0.05154639175257732,
+        0.07216494845360824,
+        0.010309278350515464,
+        0.0,
+        0.865979381443299
+      ]
+    ]
+  },
+  "roc_auc": {
+    "per_class": {
+      "Lilly": 0.96378930091809,
+      "Lotus": 0.9856852900331161,
+      "Orchid": 0.9786757595806402,
+      "Sunflower": 0.9986865942028986,
+      "Tulip": 0.9914089347079038
+    },
+    "macro_average": 0.9836491758885298
+  },
+  "calibration": {
+    "expected_calibration_error": 0.03275229445918055,
+    "n_bins": 10,
+    "bin_accuracies": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.5833333333333334,
+      0.3333333333333333,
+      0.7,
+      0.7,
+      0.7906976744186046,
+      0.9686684073107049
+    ],
+    "bin_confidences": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.45893439650535583,
+      0.5471579432487488,
+      0.6375125646591187,
+      0.7493162155151367,
+      0.8513815402984619,
+      0.9830673933029175
+    ],
+    "bin_counts": [
+      0,
+      0,
+      0,
+      0,
+      12,
+      21,
+      20,
+      20,
+      43,
+      383
+    ]
+  },
+  "top_k_accuracy": {
+    "top1": 0.8957915831663327,
+    "top2": 0.9659318637274549,
+    "top3": 0.9959919839679359
+  },
+  "temporal_performance": {
+    "single_image": {
+      "mean_latency_ms": 7.336012301268056,
+      "std_latency_ms": 0.32876779145801105,
+      "p50_latency_ms": 7.279150013346225,
+      "p95_latency_ms": 7.8841999638825655,
+      "p99_latency_ms": 8.742947983555496,
+      "min_latency_ms": 6.630100077018142,
+      "max_latency_ms": 9.803600027225912,
+      "throughput_images_per_sec": 136.31383903584054
+    },
+    "batch_benchmark": [
+      {
+        "batch_size": 1,
+        "throughput_images_per_sec": 135.6697730435968,
+        "latency_per_image_ms": 7.370838599978015
+      },
+      {
+        "batch_size": 8,
+        "throughput_images_per_sec": 642.0835818674962,
+        "latency_per_image_ms": 1.5574296372623424
+      },
+      {
+        "batch_size": 16,
+        "throughput_images_per_sec": 581.8580416932455,
+        "latency_per_image_ms": 1.7186322579472024
+      },
+      {
+        "batch_size": 32,
+        "throughput_images_per_sec": 545.4272740246097,
+        "latency_per_image_ms": 1.8334250002226327
+      },
+      {
+        "batch_size": 64,
+        "throughput_images_per_sec": 529.6731656907302,
+        "latency_per_image_ms": 1.887956696269352
+      }
+    ]
+  },
+  "spatial_performance": {
+    "parameters": {
+      "total": 24033861,
+      "trainable": 525829,
+      "frozen": 23508032,
+      "trainable_percent": 2.1878673593061055
+    },
+    "model_size_mb": 96.00657653808594,
+    "flops": 4087661824,
+    "gflops": 4.087661824,
+    "peak_inference_memory_mb": 214.802734375,
+    "complexity_score": 0.05270920489765805,
+    "device": "cuda"
+  },
+  "confidence_distribution": {
+    "mean_confidence_correct": 0.9404037594795227,
+    "mean_confidence_incorrect": 0.7211129069328308,
+    "num_correct": 447,
+    "num_incorrect": 52
+  },
+  "per_class_error_analysis": {
+    "per_class": {
+      "Lilly": {
+        "total_samples": 97,
+        "correct": 84,
+        "error_rate": 0.13402061855670103
+      },
+      "Lotus": {
+        "total_samples": 92,
+        "correct": 84,
+        "error_rate": 0.08695652173913043
+      },
+      "Orchid": {
+        "total_samples": 98,
+        "correct": 83,
+        "error_rate": 0.15306122448979592
+      },
+      "Sunflower": {
+        "total_samples": 115,
+        "correct": 112,
+        "error_rate": 0.02608695652173913
+      },
+      "Tulip": {
+        "total_samples": 97,
+        "correct": 84,
+        "error_rate": 0.13402061855670103
+      }
+    },
+    "most_confused_pairs": [
+      {
+        "true_class": "Orchid",
+        "predicted_class": "Lilly",
+        "count": 11,
+        "error_rate": 0.11224489795918367
+      },
+      {
+        "true_class": "Lilly",
+        "predicted_class": "Lotus",
+        "count": 7,
+        "error_rate": 0.07216494845360824
+      },
+      {
+        "true_class": "Tulip",
+        "predicted_class": "Lotus",
+        "count": 7,
+        "error_rate": 0.07216494845360824
+      },
+      {
+        "true_class": "Lotus",
+        "predicted_class": "Tulip",
+        "count": 4,
+        "error_rate": 0.043478260869565216
+      },
+      {
+        "true_class": "Sunflower",
+        "predicted_class": "Lilly",
+        "count": 1,
+        "error_rate": 0.008695652173913044
+      }
+    ]
+  }
+}

@@ -1,0 +1,71 @@
+======================================================================
+  COMPARAISON GROUPE B — TRANSFER LEARNING
+======================================================================
+Seeds : [42, 123, 999]
+
+
+----------------------------------------------------------------------
+  GROUPE B vs BASELINE
+----------------------------------------------------------------------
+
+ACCURACY
+   Baseline : 88.58% ± 7.09%
+   Groupe B : 90.98% ± 1.25%
+   t-stat   : -0.578
+   p-value  : 0.5940 Non significatif (α=0.05)
+
+F1_MACRO
+   Baseline : 88.35% ± 7.44%
+   Groupe B : 90.88% ± 1.38%
+   t-stat   : -0.579
+   p-value  : 0.5936 Non significatif (α=0.05)
+
+PRECISION_MACRO
+   Baseline : 88.39% ± 7.43%
+   Groupe B : 90.98% ± 1.29%
+   t-stat   : -0.594
+   p-value  : 0.5842 Non significatif (α=0.05)
+
+RECALL_MACRO
+   Baseline : 88.40% ± 7.46%
+   Groupe B : 90.95% ± 1.43%
+   t-stat   : -0.582
+   p-value  : 0.5917 Non significatif (α=0.05)
+
+----------------------------------------------------------------------
+  GROUPE B vs GROUPE A
+----------------------------------------------------------------------
+
+ACCURACY
+   Groupe A : 66.07% ± 2.12%
+   Groupe B : 90.98% ± 1.25%
+   t-stat   : -17.506
+   p-value  : 0.0001 SIGNIFICATIF (α=0.05)
+
+F1_MACRO
+   Groupe A : 64.85% ± 2.41%
+   Groupe B : 90.88% ± 1.38%
+   t-stat   : -16.246
+   p-value  : 0.0001 SIGNIFICATIF (α=0.05)
+
+PRECISION_MACRO
+   Groupe A : 65.79% ± 2.75%
+   Groupe B : 90.98% ± 1.29%
+   t-stat   : -14.391
+   p-value  : 0.0001 SIGNIFICATIF (α=0.05)
+
+RECALL_MACRO
+   Groupe A : 65.40% ± 2.47%
+   Groupe B : 90.95% ± 1.43%
+   t-stat   : -15.517
+   p-value  : 0.0001 SIGNIFICATIF (α=0.05)
+
+======================================================================
+  TABLEAU RECAPITULATIF
+======================================================================
+Metrique                 Baseline     Groupe A     Groupe B
+------------------------------------------------------------
+accuracy                   88.58%       66.07%       90.98%
+f1_macro                   88.35%       64.85%       90.88%
+precision_macro            88.39%       65.79%       90.98%
+recall_macro               88.40%       65.40%       90.95%

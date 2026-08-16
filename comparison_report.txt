@@ -1,0 +1,29 @@
+======================================================================
+  COMPARAISON BASELINE vs GROUPE A
+======================================================================
+Seeds : [42, 123, 999]
+
+
+📊 ACCURACY
+   Baseline : 88.58% ± 7.09%
+   Groupe A : 66.07% ± 2.12%
+   t-stat   : 5.268
+   p-value  : 0.0062 SIGNIFICATIF (alpha=0.05)
+
+📊 F1_MACRO
+   Baseline : 88.35% ± 7.44%
+   Groupe A : 64.85% ± 2.41%
+   t-stat   : 5.206
+   p-value  : 0.0065 SIGNIFICATIF (alpha=0.05)
+
+📊 PRECISION_MACRO
+   Baseline : 88.39% ± 7.43%
+   Groupe A : 65.79% ± 2.75%
+   t-stat   : 4.943
+   p-value  : 0.0078 SIGNIFICATIF (alpha=0.05)
+
+📊 RECALL_MACRO
+   Baseline : 88.40% ± 7.46%
+   Groupe A : 65.40% ± 2.47%
+   t-stat   : 5.070
+   p-value  : 0.0071 SIGNIFICATIF (alpha=0.05)

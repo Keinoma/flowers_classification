@@ -1,0 +1,84 @@
+===========================================================
+RESULTS SECTION - 1ST ALGORITHM
+===========================================================
+
+-----------------------------------------------------------
+TABLE 1: PER-CLASS PERFORMANCE
+-----------------------------------------------------------
+Class       | Precision | Recall | F1-Score | Support
+------------|-----------|--------|----------|--------
+Tulip       | 0.92      | 0.75   | 0.83     | 97
+Sunflower   | 0.90      | 0.98   | 0.94     | 115
+Orchid      | 0.80      | 0.71   | 0.75     | 98
+Lotus       | 0.74      | 0.84   | 0.79     | 92
+Lilly       | 0.69      | 0.72   | 0.70     | 97
+
+-----------------------------------------------------------
+TABLE 2: GLOBAL METRICS (Weighted & Macro Averages)
+-----------------------------------------------------------
+Metric        | Precision | Recall | F1-Score | Support
+--------------|-----------|--------|----------|--------
+Macro Avg     | 0.81      | 0.80   | 0.80     | 499
+Weighted Avg  | 0.81      | 0.81   | 0.81     | 499
+
+-----------------------------------------------------------
+TABLE 3: ACCURACY
+-----------------------------------------------------------
+Metric    | Value | Support
+----------|-------|--------
+Accuracy  | 0.81  | 499
+
+-----------------------------------------------------------
+ANALYSIS & COMMENTS
+-----------------------------------------------------------
+
+Sunflower (Best Performer):
+- Achieves the highest precision (0.90) and near-perfect recall (0.98).
+- The model rarely misclassifies sunflowers and misses almost none.
+- Explanation: Sunflower is the only flower that is consistently yellow with very similar appearances across images (see figures, not included here). This visual consistency likely contributes to the excellent performance.
+
+Tulip:
+- Shows good precision (0.92) but a weaker recall (0.75).
+- Some tulips are missed by the model. Further investigation is needed to understand why these specific cases are overlooked.
+
+Orchid & Lotus:
+- Results are acceptable but not outstanding.
+- Both precision and recall scores need improvement.
+
+Lilly (Most Problematic):
+- Lowest scores: precision (0.69), recall (0.72), F1 (0.70).
+- Lilly images vary greatly in shape and color (see figures, not included here), making them harder to recognize.
+- Both precision and recall are low, indicating two issues:
+  1. The model fails to recognize many actual Lillies.
+  2. The model falsely labels other flowers as Lillies too often.
+- Suggestion: Improve the model's capacity to both identify Lillies correctly and reduce false positives.
+
+-----------------------------------------------------------
+GENERAL OBSERVATIONS
+-----------------------------------------------------------
+- Overall precision is approximately 80% for both weighted and macro averages.
+- Classes are relatively balanced, so there is no significant gap between weighted and unweighted scores, which is expected.
+
+-----------------------------------------------------------
+CONFUSION MATRIX INSIGHTS
+-----------------------------------------------------------
+- Tulip misclassifications:
+  - When the model predicts "Tulip", it is rarely wrong.
+  - However, 25% of real Tulips are missed.
+  - These missed Tulips are misclassified almost equally across other classes, with no single dominant misclassification target.
+
+- Orchid misclassifications:
+  - When a real Orchid is missed, it is most often misclassified as "Lilly".
+  - This specific error pattern is interesting and worth investigating further (unlike the more evenly spread errors seen with Tulips).
+
+-----------------------------------------------------------
+GRAD-CAM ANALYSIS (Overfitting Concern)
+-----------------------------------------------------------
+- Grad-CAM heatmaps were generated to understand which image regions the model focuses on.
+- Focus was placed on Orchid images (see figures, not included here).
+- The heatmaps reveal clear signs of overfitting.
+- This is surprising given the relatively good overall results, but it indicates that the model may be relying on irrelevant background features rather than the flower itself.
+
+===========================================================
+END OF RESULTS SECTION
+===========================================================
