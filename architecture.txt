@@ -68,17 +68,18 @@ code/
 │   ├── predict_A.py
 │   └── train_A.py
 │
-└── src3/
-    ├── checkpoints/            ← Sera rempli par les runs (best_model_B.pth, etc.)
-    ├── comapre/
-    │    ├── compare_groups.py
-    │    └── compare_groups_B.py                       
-    ├── results/                ← Sera rempli par evaluate_model_B.py
-    ├── __init___B.py           ← (optionnel)
-    ├── conf_mat_B.py           ← Reproduction matrice de confusion
-    ├── evaluate_model_B.py     ← Évaluation exhaustive
-    ├── load_data_B.py          ← (ou réutilise load_data_A.py)
-    ├── main_B.py               ← Orchestration (seed, config, entraînement)
-    ├── model_B.py              ← ResNet50 pré-entraîné + backbone gelé
-    ├── predict_B.py            ← Inférence CLI
-    └── train_B.py              ← Trainer (même logique, peut-être LR différent)
+├── src3/
+|   ├── checkpoints/            ← Sera rempli par les runs (best_model_B.pth, etc.)
+|   ├── compare/                      
+|   ├── results/                ← Sera rempli par evaluate_model_B.py
+|   ├── __init___B.py           ← (optionnel)
+|   ├── conf_mat_B.py           ← Reproduction matrice de confusion
+|   ├── evaluate_model_B.py     ← Évaluation exhaustive
+|   ├── load_data_B.py          ← (ou réutilise load_data_A.py)
+|   ├── main_B.py               ← Orchestration (seed, config, entraînement)
+|   ├── model_B.py              ← ResNet50 pré-entraîné + backbone gelé
+|   ├── predict_B.py            ← Inférence CLI
+|   └── train_B.py              ← Trainer (même logique, peut-être LR différent)
+|
+├── compare_groups.py
+└── compare_groups_B.py 

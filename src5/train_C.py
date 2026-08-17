@@ -1,6 +1,8 @@
 """
-Module d'entraînement pour la classification de fleurs.
-Gère la boucle d'entraînement, la validation, la sauvegarde et les métriques.
+Module d'entraînement pour la classification de fleurs — Groupe C (Fine-tuning).
+Gère la boucle d'entraînement, la validation, la sauvegarde, l'early stopping
+et les métriques. Différence clé avec le Groupe B : optimiseur à 2 groupes
+de paramètres (LR différencié) + early stopping.
 """
 
 import os
@@ -16,14 +18,12 @@ import matplotlib.pyplot as plt
 from typing import Tuple, List, Dict, Optional
 from tqdm import tqdm
 
-from model_A import FlowerCNN
-
 
 class FlowerDataset(Dataset):
     """
     Dataset PyTorch adapté pour les NumPy arrays chargés par LoadData.
     """
-    
+
     def __init__(self, images: np.ndarray, labels: np.ndarray, transform=None):
         """
         Args:
@@ -34,67 +34,99 @@ class FlowerDataset(Dataset):
         self.images = images
         self.labels = labels
         self.transform = transform
-        
+
     def __len__(self):
         return len(self.images)
-    
+
     def __getitem__(self, idx):
         # Convertir en PIL Image pour les transformations torchvision
         image = self.images[idx]  # (H, W, 3), uint8
         label = self.labels[idx]
-        
+
         # Convertir en PIL Image
         from PIL import Image
         image = Image.fromarray(image)
-        
+
         if self.transform:
             image = self.transform(image)
-        
+
         return image, label
 
 
 class Trainer:
     """
-    Classe gérant l'entraînement complet du modèle.
+    Classe gérant l'entraînement complet du modèle (Groupe C — Fine-tuning).
+
+    Particularités :
+    - Optimiseur avec 2 groupes de paramètres (LR différencié)
+    - Early stopping intégré
     """
-    
+
     def __init__(self, 
-                 model: FlowerCNN,
+                 model: nn.Module,
                  train_loader: DataLoader,
                  val_loader: DataLoader,
                  device: str = 'cuda',
-                 learning_rate: float = 0.001,
-                 epochs: int = 20):
+                 lr_head: float = 0.001,
+                 lr_backbone: float = 0.00001,
+                 epochs: int = 30,
+                 early_stopping_patience: int = 7,
+                 early_stopping_min_delta: float = 0.0):
         """
         Initialise le trainer.
-        
+
         Args:
-            model: Instance de FlowerCNN
+            model: Instance de FlowerResNet
             train_loader: DataLoader d'entraînement
             val_loader: DataLoader de validation
             device: 'cuda' ou 'cpu'
-            learning_rate: Taux d'apprentissage
+            lr_head: Taux d'apprentissage pour la tête de classification
+            lr_backbone: Taux d'apprentissage pour le backbone (10-100x plus faible)
             epochs: Nombre d'epochs
+            early_stopping_patience: Epochs sans amélioration avant arrêt
+            early_stopping_min_delta: Seuil minimum d'amélioration pour reset le compteur
         """
         self.model = model
         self.train_loader = train_loader
         self.val_loader = val_loader
         self.device = device
         self.epochs = epochs
-        
-        # Loss et optimizer
+        self.early_stopping_patience = early_stopping_patience
+        self.early_stopping_min_delta = early_stopping_min_delta
+
+        # ═══════════════════════════════════════════════════════════════
+        # OPTIMISEUR À 2 GROUPES — LR différencié (clé du fine-tuning)
+        # ═══════════════════════════════════════════════════════════════
+        # Groupe 1 : backbone (couches profondes de ResNet50) → LR très faible
+        # Groupe 2 : tête de classification (nouvelle) → LR normal
+        # Cela évite de détruire les connaissances pré-entraînées en 2-3 batches.
+
+        backbone_params = []
+        head_params = []
+
+        for name, param in model.named_parameters():
+            if 'backbone.fc' in name:
+                # La tête de classification (notre nouveau classifier)
+                head_params.append(param)
+            else:
+                # Tout le reste = backbone ResNet50
+                backbone_params.append(param)
+
         self.criterion = nn.CrossEntropyLoss()
-        self.optimizer = optim.Adam(
-            filter(lambda p: p.requires_grad, model.parameters()),
-            lr=learning_rate,
-            weight_decay=1e-4
-        )
-        
+        self.optimizer = optim.Adam([
+            {'params': backbone_params, 'lr': lr_backbone, 'weight_decay': 1e-4},
+            {'params': head_params, 'lr': lr_head, 'weight_decay': 1e-4}
+        ])
+
+        print(f"   Optimiseur Adam — 2 groupes de paramètres:")
+        print(f"      Backbone : LR={lr_backbone}, params={len(backbone_params)}")
+        print(f"      Tête     : LR={lr_head}, params={len(head_params)}")
+
         # Scheduler : réduit le LR si la validation stagne
         self.scheduler = optim.lr_scheduler.ReduceLROnPlateau(
             self.optimizer, mode='min', patience=3, factor=0.5, verbose=True
         )
-        
+
         # Historique
         self.history = {
             'train_loss': [],
@@ -103,14 +135,16 @@ class Trainer:
             'val_acc': [],
             'lr': []
         }
-        
+
         self.best_val_acc = 0.0
         self.best_model_path = None
-        
+        self.early_stop_counter = 0
+        self.early_stopped = False
+
     def train_epoch(self) -> Tuple[float, float]:
         """
         Entraîne le modèle pour une epoch.
-        
+
         Returns:
             (train_loss, train_accuracy)
         """
@@ -118,41 +152,41 @@ class Trainer:
         running_loss = 0.0
         all_preds = []
         all_labels = []
-        
+
         pbar = tqdm(self.train_loader, desc="Entraînement")
-        
+
         for images, labels in pbar:
             images = images.to(self.device)
             labels = labels.to(self.device)
-            
+
             # Forward
             self.optimizer.zero_grad()
             outputs = self.model(images)
             loss = self.criterion(outputs, labels)
-            
+
             # Backward
             loss.backward()
             self.optimizer.step()
-            
+
             # Stats
             running_loss += loss.item()
             _, predicted = torch.max(outputs, 1)
             all_preds.extend(predicted.cpu().numpy())
             all_labels.extend(labels.cpu().numpy())
-            
+
             # Mise à jour de la barre de progression
             acc = accuracy_score(all_labels, all_preds) * 100
             pbar.set_postfix({'loss': f'{loss.item():.4f}', 'acc': f'{acc:.2f}%'})
-        
+
         epoch_loss = running_loss / len(self.train_loader)
         epoch_acc = accuracy_score(all_labels, all_preds) * 100
-        
+
         return epoch_loss, epoch_acc
-    
+
     def validate(self) -> Tuple[float, float]:
         """
         Évalue le modèle sur le set de validation.
-        
+
         Returns:
             (val_loss, val_accuracy)
         """
@@ -160,110 +194,130 @@ class Trainer:
         running_loss = 0.0
         all_preds = []
         all_labels = []
-        
+
         with torch.no_grad():
             for images, labels in tqdm(self.val_loader, desc="Validation"):
                 images = images.to(self.device)
                 labels = labels.to(self.device)
-                
+
                 outputs = self.model(images)
                 loss = self.criterion(outputs, labels)
-                
+
                 running_loss += loss.item()
                 _, predicted = torch.max(outputs, 1)
                 all_preds.extend(predicted.cpu().numpy())
                 all_labels.extend(labels.cpu().numpy())
-        
+
         epoch_loss = running_loss / len(self.val_loader)
         epoch_acc = accuracy_score(all_labels, all_preds) * 100
-        
+
         return epoch_loss, epoch_acc
-    
+
     def fit(self, save_dir: str = "checkpoints") -> Dict:
         """
-        Lance l'entraînement complet.
-        
+        Lance l'entraînement complet avec early stopping.
+
         Args:
             save_dir: Dossier pour sauvegarder les modèles
-            
+
         Returns:
             Historique d'entraînement
         """
         total_start_time = time.time() 
-        
+
         os.makedirs(save_dir, exist_ok=True)
-        self.best_model_path = os.path.join(save_dir, "best_model_A.pth")
-                
+        self.best_model_path = os.path.join(save_dir, "best_model_C.pth")
+
         print(f"\n{'='*60}")
-        print(f"DÉBUT DE L'ENTRAÎNEMENT")
+        print(f"DÉBUT DE L'ENTRAÎNEMENT — Groupe C (Fine-tuning)")
         print(f"{'='*60}")
         print(f"Device: {self.device}")
         print(f"Epochs: {self.epochs}")
-        print(f"LR initial: {self.optimizer.param_groups[0]['lr']}")
+        print(f"LR tête: {self.optimizer.param_groups[1]['lr']}")
+        print(f"LR backbone: {self.optimizer.param_groups[0]['lr']}")
+        print(f"Early stopping patience: {self.early_stopping_patience}")
         print(f"{'='*60}\n")
-        
+
         for epoch in range(self.epochs):
             start_time = time.time()
-            
+
             # Entraînement
             train_loss, train_acc = self.train_epoch()
-            
+
             # Validation
             val_loss, val_acc = self.validate()
-            
+
             # Scheduler
             self.scheduler.step(val_loss)
             current_lr = self.optimizer.param_groups[0]['lr']
-            
+
             # Historique
             self.history['train_loss'].append(train_loss)
             self.history['train_acc'].append(train_acc)
             self.history['val_loss'].append(val_loss)
             self.history['val_acc'].append(val_acc)
             self.history['lr'].append(current_lr)
-            
+
             # Temps
             epoch_time = time.time() - start_time
-            
+
             # Affichage
-            print(f"\nEpoch [{epoch+1}/{self.epochs}] - {epoch_time:.1f}s")
+            print(f"\nEpoch [{epoch+1}/{self.epochs}] — {epoch_time:.1f}s")
             print(f"  Train Loss: {train_loss:.4f} | Train Acc: {train_acc:.2f}%")
             print(f"  Val Loss:   {val_loss:.4f} | Val Acc:   {val_acc:.2f}%")
-            print(f"  LR: {current_lr:.6f}")
-            
-            # Sauvegarde du meilleur modèle
-            if val_acc > self.best_val_acc:
+            print(f"  LR backbone: {self.optimizer.param_groups[0]['lr']:.6f}")
+            print(f"  LR tête:     {self.optimizer.param_groups[1]['lr']:.6f}")
+
+            # ═══════════════════════════════════════════════════════════════
+            # EARLY STOPPING + Sauvegarde du meilleur modèle
+            # ═══════════════════════════════════════════════════════════════
+            if val_acc > self.best_val_acc + self.early_stopping_min_delta:
+                # Amélioration significative → reset compteur + sauvegarde
                 self.best_val_acc = val_acc
+                self.early_stop_counter = 0
                 torch.save({
                     'epoch': epoch,
                     'model_state_dict': self.model.state_dict(),
                     'optimizer_state_dict': self.optimizer.state_dict(),
                     'val_acc': val_acc,
+                    'val_loss': val_loss,
                 }, self.best_model_path)
                 print(f"  💾 Meilleur modèle sauvegardé (val_acc: {val_acc:.2f}%)")
-            
+            else:
+                # Pas d'amélioration → incrémenter compteur
+                self.early_stop_counter += 1
+                print(f"  ⏳ Pas d'amélioration ({self.early_stop_counter}/{self.early_stopping_patience})")
+
+                if self.early_stop_counter >= self.early_stopping_patience:
+                    print(f"\n🛑 EARLY STOPPING déclenché à l'epoch {epoch+1}")
+                    print(f"   Meilleure val accuracy: {self.best_val_acc:.2f}%")
+                    self.early_stopped = True
+                    break
+
             print("-" * 60)
-        
+
         print(f"\n{'='*60}")
         print(f"ENTRAÎNEMENT TERMINÉ")
+        if self.early_stopped:
+            print(f"   Arrêt anticipé (early stopping)")
         print(f"Meilleure validation accuracy: {self.best_val_acc:.2f}%")
         print(f"Modèle sauvegardé: {self.best_model_path}")
         print(f"{'='*60}")
 
-        total_time = time.time() - total_start_time   # ← AJOUTER à la fin
+        total_time = time.time() - total_start_time
         print(f"\n⏱️  Temps d'entraînement total: {total_time/60:.1f} min")
-        
+
         return self.history
-    
+
     def plot_history(self, save_path: Optional[str] = None):
         """
         Affiche les courbes d'entraînement.
-        
+
         Args:
             save_path: Chemin pour sauvegarder la figure
         """
         fig, axes = plt.subplots(1, 3, figsize=(15, 4))
-        
+
         # Loss
         axes[0].plot(self.history['train_loss'], label='Train')
         axes[0].plot(self.history['val_loss'], label='Validation')
@@ -272,7 +326,7 @@ class Trainer:
         axes[0].set_ylabel('Loss')
         axes[0].legend()
         axes[0].grid(True)
-        
+
         # Accuracy
         axes[1].plot(self.history['train_acc'], label='Train')
         axes[1].plot(self.history['val_acc'], label='Validation')
@@ -281,26 +335,26 @@ class Trainer:
         axes[1].set_ylabel('Accuracy (%)')
         axes[1].legend()
         axes[1].grid(True)
-        
+
         # Learning Rate
         axes[2].plot(self.history['lr'])
-        axes[2].set_title('Learning Rate')
+        axes[2].set_title('Learning Rate (backbone)')
         axes[2].set_xlabel('Epoch')
         axes[2].set_ylabel('LR')
         axes[2].grid(True)
-        
+
         plt.tight_layout()
-        
+
         if save_path:
             plt.savefig(save_path, dpi=150)
             print(f"📊 Graphique sauvegardé: {save_path}")
-        
+
         plt.close()
-    
+
     def evaluate(self, test_loader: DataLoader, class_names: List[str], save_path: Optional[str] = None):
         """
         Évaluation finale avec matrice de confusion et rapport de classification.
-        
+
         Args:
             test_loader: DataLoader de test
             class_names: Noms des classes
@@ -308,7 +362,7 @@ class Trainer:
         self.model.eval()
         all_preds = []
         all_labels = []
-        
+
         with torch.no_grad():
             for images, labels in tqdm(test_loader, desc="Évaluation"):
                 images = images.to(self.device)
@@ -316,92 +370,99 @@ class Trainer:
                 _, predicted = torch.max(outputs, 1)
                 all_preds.extend(predicted.cpu().numpy())
                 all_labels.extend(labels.numpy())
-        
+
         # Métriques
         acc = accuracy_score(all_labels, all_preds) * 100
         f1_macro = f1_score(all_labels, all_preds, average='macro') * 100
         print(f"\n{'='*60}")
-        print(f"ÉVALUATION FINALE")
+        print(f"ÉVALUATION FINALE — Groupe C (Fine-tuning)")
         print(f"{'='*60}")
         print(f"Accuracy: {acc:.2f}%")
         print(f"  F1-score (macro): {f1_macro:.2f}%")   
         print(f"\nRapport de classification:")
         print(classification_report(all_labels, all_preds, target_names=class_names))
-        
+
         # Matrice de confusion
         cm = confusion_matrix(all_labels, all_preds)
         plt.figure(figsize=(8, 6))
         plt.imshow(cm, cmap='Blues')
-        plt.title('Matrice de Confusion')
+        plt.title('Matrice de Confusion (Groupe C)')
         plt.colorbar()
         tick_marks = np.arange(len(class_names))
         plt.xticks(tick_marks, class_names, rotation=45)
         plt.yticks(tick_marks, class_names)
         plt.xlabel('Prédit')
         plt.ylabel('Réel')
-        
+
         # Annotations
         for i in range(cm.shape[0]):
             for j in range(cm.shape[1]):
                 plt.text(j, i, cm[i, j], ha='center', va='center')
-        
+
         plt.tight_layout()
         if save_path:
             plt.savefig(save_path, dpi=150, bbox_inches='tight')
             print(f"📊 Matrice de confusion sauvegardée: {save_path}")
         plt.close()
-        
+
         return acc
 
 
 # ============================================================
-# FONCTIONS UTILITAIRES
+# FONCTIONS UTILITAIRES (identiques au Groupe B)
 # ============================================================
 
 def get_transforms(train: bool = True, image_size: int = 224):
     """
-    Transformations pour la baseline (train=False) ou le Groupe A (train=True).
+    Transformations pour le Groupe C (même pipeline que Groupe B).
     """
     if train:
         # ═══════════════════════════════════════════════════════════════
-        # GROUPE A — Data Augmentation complète
+        # GROUPE C — Data Augmentation complète (identique au Groupe B)
         # ═══════════════════════════════════════════════════════════════
         return transforms.Compose([
+            # 1. CROPPING — Extrait une zone aléatoire puis resize
             transforms.RandomResizedCrop(
                 size=(image_size, image_size),
-                scale=(0.7, 1.0),      
-                ratio=(0.75, 1.33)     
+                scale=(0.7, 1.0),      # garde entre 70% et 100% de l'image
+                ratio=(0.75, 1.33)     # ratio d'aspect toléré
             ),
-            
-            transforms.RandomHorizontalFlip(p=0.3), #p=0.5
-            #transforms.RandomVerticalFlip(p=0.3),
-            
-            transforms.RandomRotation(degrees=15), #degrees=30
-            
+
+            # 2. FLIP — Horizontal + Vertical (les fleurs peuvent être dans tous les sens)
+            transforms.RandomHorizontalFlip(p=0.5),
+            transforms.RandomVerticalFlip(p=0.3),
+
+            # 3. ROTATION — Jusqu'à ±30° (les fleurs ne sont pas toujours droites)
+            transforms.RandomRotation(degrees=30),
+
+            # 4. AFFINE — Légère translation + shear (déformation douce)
             transforms.RandomAffine(
                 degrees=0,
-                translate=(0.1, 0.1),  
-                shear=(-10, 10)       
+                translate=(0.1, 0.1),   # translation jusqu'à 10%
+                shear=(-10, 10)         # cisaillement ±10°
             ),
-            
+
+            # 5. PERSPECTIVE — Changement de point de vue
             transforms.RandomPerspective(distortion_scale=0.2, p=0.3),
-            
+
+            # 6. COLOR JITTER — Variations de couleur (essentiel pour les fleurs)
             transforms.ColorJitter(
-                brightness=0.3,     
-                contrast=0.3,    
-                saturation=0.3,   
-                hue=0.1              
+                brightness=0.3,      # ±30% luminosité
+                contrast=0.3,        # ±30% contraste
+                saturation=0.3,      # ±30% saturation
+                hue=0.1              # légère variation de teinte
             ),
-            
+
+            # 7. GAUSSIAN BLUR — Flou léger (simule mise au point imparfaite)
             transforms.RandomApply([
                 transforms.GaussianBlur(kernel_size=3, sigma=(0.1, 1.0))
             ], p=0.2),
-            
-            #NORMALISATION — Toujours en dernier
+
+            # 8. NORMALISATION — Toujours en dernier
             transforms.ToTensor(),
             transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
         ])
-    
+
     else:
         # ═══════════════════════════════════════════════════════════════
         # VAL/TEST — Pas d'augmentation, juste resize + normalisation
@@ -420,113 +481,62 @@ def prepare_dataloaders(images: np.ndarray,
                       num_workers: int = 4) -> Tuple[DataLoader, DataLoader, DataLoader]:
     """
     Prépare les DataLoaders à partir des NumPy arrays.
-    
-    Args:
-        images: NumPy array (N, H, W, 3)
-        labels: NumPy array (N,)
-        batch_size: Taille des batchs
-        val_split: Fraction pour la validation
-        test_split: Fraction pour le test
-        num_workers: Nombre de workers pour le chargement
-        
-    Returns:
-        (train_loader, val_loader, test_loader)
+    (Identique au Groupe B — même split, même seed)
     """
-    
+
     # ═══════════════════════════════════════════════════════════════
     # ÉTAPE 1 : Calculer les tailles de chaque split
     # ═══════════════════════════════════════════════════════════════
-    # On part du total et on calcule combien d'images vont dans chaque
-    # ensemble. L'ordre est important : test d'abord, val ensuite, 
-    # le reste = train.
-    
     total = len(images)
     test_size = int(total * test_split)   # ex: 4999 * 0.10 = 499 images
     val_size = int(total * val_split)     # ex: 4999 * 0.20 = 999 images
     train_size = total - val_size - test_size  # ex: 4999 - 999 - 499 = 3501 images
-    
+
     # ═══════════════════════════════════════════════════════════════
     # ÉTAPE 2 : Tirer au sort les INDICES (pas les données !)
     # ═══════════════════════════════════════════════════════════════
-    # Ici, on ne touche PAS aux images. On travaille uniquement avec
-    # des NUMÉROS : [0, 1, 2, 3, ..., 4998].
-    # 
-    # random_split va diviser cette liste de numéros en 3 paquets :
-    #   train_indices  → numéros aléatoires pour l'entraînement
-    #   val_indices    → numéros aléatoires pour la validation
-    #   test_indices   → numéros aléatoires pour le test
-    #
-    # C'est comme si on tirait au sort des numéros de casiers.
-    # On ne regarde pas encore ce qu'il y a DEDANS.
-    
     train_indices, val_indices, test_indices = random_split(
         range(total),                     # ← la "liste" de numéros 0 à N-1
         [train_size, val_size, test_size],
         generator=torch.Generator().manual_seed(42)  # seed pour reproductibilité
     )
-    
+
     # ═══════════════════════════════════════════════════════════════
     # ÉTAPE 3 : Extraire les VRAIES DONNÉES avec les indices tirés
     # ═══════════════════════════════════════════════════════════════
-    # Maintenant qu'on sait QUELS numéros on veut, on va chercher
-    # les images et labels correspondants dans les arrays NumPy.
-    #
-    # images[train_indices.indices]  →  fancy indexing NumPy
-    # Ça prend les images aux positions [4, 12, 33, 87...] et crée
-    # un NOUVEL array avec SEULEMENT ces images.
-    #
-    # CONTRAIREMENT à l'ancien code :
-    #   - Avant : on créait un Subset qui pointait vers TOUT le dataset
-    #             et qui utilisait des indices pour "simuler" le split.
-    #   - Maintenant : on crée 3 datasets qui possèdent CHACUN leurs
-    #                  propres données. Plus de dépendance cachée.
-    
     train_images = images[train_indices.indices]   # ex: shape (3501, 224, 224, 3)
     train_labels = labels[train_indices.indices]   # ex: shape (3501,)
-    
+
     val_images = images[val_indices.indices]       # ex: shape (999, 224, 224, 3)
     val_labels = labels[val_indices.indices]       # ex: shape (999,)
-    
+
     test_images = images[test_indices.indices]     # ex: shape (499, 224, 224, 3)
     test_labels = labels[test_indices.indices]       # ex: shape (499,)
-    
+
     # ═══════════════════════════════════════════════════════════════
     # ÉTAPE 4 : Créer 3 datasets VRAIMENT indépendants
     # ═══════════════════════════════════════════════════════════════
-    # Chaque FlowerDataset reçoit SES propres images + SES propres labels.
-    # Ils ne partagent plus rien. Si tu modifies l'un, les autres ne
-    # bougent pas.
-    #
-    # - Val/Test : pas d'augmentation, juste la normalisation ImageNet.
-    #              On veut évaluer sur des images "réelles".
-    
     train_dataset = FlowerDataset(
         train_images, 
         train_labels, 
         transform=get_transforms(train=True)   # ← augmentation activée
     )
-    
+
     val_dataset = FlowerDataset(
         val_images, 
         val_labels, 
         transform=get_transforms(train=False)  # ← pas d'augmentation
     )
-    
+
     test_dataset = FlowerDataset(
         test_images, 
         test_labels, 
         transform=get_transforms(train=False)  # ← pas d'augmentation
     )
-    
+
     # ═══════════════════════════════════════════════════════════════
     # ÉTAPE 5 : Créer les DataLoaders
     # ═══════════════════════════════════════════════════════════════
-    # Le DataLoader s'occupe de :
-    #   - Découper le dataset en batchs (batch_size)
-    #   - Mélanger les données à chaque epoch (shuffle=True pour train)
-    #   - Charger en parallèle (num_workers)
-    #   - Transférer rapidement vers GPU (pin_memory=True)
-    
     train_loader = DataLoader(
         train_dataset, 
         batch_size=batch_size, 
@@ -534,7 +544,7 @@ def prepare_dataloaders(images: np.ndarray,
         num_workers=num_workers, 
         pin_memory=True
     )
-    
+
     val_loader = DataLoader(
         val_dataset, 
         batch_size=batch_size, 
@@ -542,7 +552,7 @@ def prepare_dataloaders(images: np.ndarray,
         num_workers=num_workers, 
         pin_memory=True
     )
-    
+
     test_loader = DataLoader(
         test_dataset, 
         batch_size=batch_size, 
@@ -550,14 +560,14 @@ def prepare_dataloaders(images: np.ndarray,
         num_workers=num_workers, 
         pin_memory=True
     )
-    
+
     # ═══════════════════════════════════════════════════════════════
     # ÉTAPE 6 : Afficher un résumé
     # ═══════════════════════════════════════════════════════════════
-    
+
     print(f"📊 Dataset split:")
     print(f"   Train: {len(train_dataset)} ({len(train_dataset)/total*100:.1f}%)")
     print(f"   Val:   {len(val_dataset)} ({len(val_dataset)/total*100:.1f}%)")
     print(f"   Test:  {len(test_dataset)} ({len(test_dataset)/total*100:.1f}%)")
-    
+
     return train_loader, val_loader, test_loader

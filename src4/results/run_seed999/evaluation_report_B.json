@@ -1,0 +1,340 @@
+{
+  "classification_metrics": {
+    "accuracy": 0.9278557114228457,
+    "accuracy_percent": 92.78557114228457,
+    "precision": {
+      "macro": 0.9333927787699396,
+      "micro": 0.9278557114228457,
+      "weighted": 0.9335560418838813,
+      "per_class": {
+        "Lilly": 0.8035714285714286,
+        "Lotus": 0.9565217391304348,
+        "Orchid": 0.918918918918919,
+        "Sunflower": 1.0,
+        "Tulip": 0.9879518072289156
+      }
+    },
+    "recall": {
+      "macro": 0.9268359958909324,
+      "micro": 0.9278557114228457,
+      "weighted": 0.9278557114228457,
+      "per_class": {
+        "Lilly": 0.9278350515463918,
+        "Lotus": 0.8979591836734694,
+        "Orchid": 0.9444444444444444,
+        "Sunflower": 0.9528301886792453,
+        "Tulip": 0.9111111111111111
+      }
+    },
+    "f1_score": {
+      "macro": 0.9285777894336489,
+      "micro": 0.9278557114228457,
+      "weighted": 0.9292182155363173,
+      "per_class": {
+        "Lilly": 0.861244019138756,
+        "Lotus": 0.9263157894736842,
+        "Orchid": 0.9315068493150684,
+        "Sunflower": 0.9758454106280193,
+        "Tulip": 0.9479768786127167
+      }
+    },
+    "classification_report": {
+      "Lilly": {
+        "precision": 0.8035714285714286,
+        "recall": 0.9278350515463918,
+        "f1-score": 0.861244019138756,
+        "support": 97.0
+      },
+      "Lotus": {
+        "precision": 0.9565217391304348,
+        "recall": 0.8979591836734694,
+        "f1-score": 0.9263157894736842,
+        "support": 98.0
+      },
+      "Orchid": {
+        "precision": 0.918918918918919,
+        "recall": 0.9444444444444444,
+        "f1-score": 0.9315068493150684,
+        "support": 108.0
+      },
+      "Sunflower": {
+        "precision": 1.0,
+        "recall": 0.9528301886792453,
+        "f1-score": 0.9758454106280193,
+        "support": 106.0
+      },
+      "Tulip": {
+        "precision": 0.9879518072289156,
+        "recall": 0.9111111111111111,
+        "f1-score": 0.9479768786127167,
+        "support": 90.0
+      },
+      "accuracy": 0.9278557114228457,
+      "macro avg": {
+        "precision": 0.9333927787699396,
+        "recall": 0.9268359958909324,
+        "f1-score": 0.9285777894336489,
+        "support": 499.0
+      },
+      "weighted avg": {
+        "precision": 0.9335560418838813,
+        "recall": 0.9278557114228457,
+        "f1-score": 0.9292182155363173,
+        "support": 499.0
+      }
+    },
+    "validation_loss": null,
+    "validation_accuracy": 87.88788788788789
+  },
+  "confusion_matrix": {
+    "raw": [
+      [
+        90,
+        2,
+        4,
+        0,
+        1
+      ],
+      [
+        9,
+        88,
+        1,
+        0,
+        0
+      ],
+      [
+        6,
+        0,
+        102,
+        0,
+        0
+      ],
+      [
+        3,
+        0,
+        2,
+        101,
+        0
+      ],
+      [
+        4,
+        2,
+        2,
+        0,
+        82
+      ]
+    ],
+    "normalized": [
+      [
+        0.9278350515463918,
+        0.020618556701030927,
+        0.041237113402061855,
+        0.0,
+        0.010309278350515464
+      ],
+      [
+        0.09183673469387756,
+        0.8979591836734694,
+        0.01020408163265306,
+        0.0,
+        0.0
+      ],
+      [
+        0.05555555555555555,
+        0.0,
+        0.9444444444444444,
+        0.0,
+        0.0
+      ],
+      [
+        0.02830188679245283,
+        0.0,
+        0.018867924528301886,
+        0.9528301886792453,
+        0.0
+      ],
+      [
+        0.044444444444444446,
+        0.022222222222222223,
+        0.022222222222222223,
+        0.0,
+        0.9111111111111111
+      ]
+    ]
+  },
+  "roc_auc": {
+    "per_class": {
+      "Lilly": 0.9840231830538031,
+      "Lotus": 0.9941472848491018,
+      "Orchid": 0.9948849104859335,
+      "Sunflower": 0.9997599500696145,
+      "Tulip": 0.9984515077424614
+    },
+    "macro_average": 0.994253367240183
+  },
+  "calibration": {
+    "expected_calibration_error": 0.0553072809217449,
+    "n_bins": 10,
+    "bin_accuracies": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.47058823529411764,
+      0.6296296296296297,
+      0.8461538461538461,
+      0.8627450980392157,
+      0.9848484848484849,
+      0.9935275080906149
+    ],
+    "bin_confidences": [
+      0.0,
+      0.0,
+      0.29040372371673584,
+      0.3806607127189636,
+      0.4687163829803467,
+      0.5481052398681641,
+      0.6493765711784363,
+      0.759626567363739,
+      0.863854706287384,
+      0.9742628335952759
+    ],
+    "bin_counts": [
+      0,
+      0,
+      1,
+      2,
+      17,
+      27,
+      26,
+      51,
+      66,
+      309
+    ]
+  },
+  "top_k_accuracy": {
+    "top1": 0.9278557114228457,
+    "top2": 0.9919839679358717,
+    "top3": 0.9979959919839679
+  },
+  "temporal_performance": {
+    "single_image": {
+      "mean_latency_ms": 7.592241799400654,
+      "std_latency_ms": 1.4497878602420715,
+      "p50_latency_ms": 7.0884000160731375,
+      "p95_latency_ms": 11.831670015817505,
+      "p99_latency_ms": 13.291392041137442,
+      "min_latency_ms": 6.445100007113069,
+      "max_latency_ms": 13.80850002169609,
+      "throughput_images_per_sec": 131.7134024997652
+    },
+    "batch_benchmark": [
+      {
+        "batch_size": 1,
+        "throughput_images_per_sec": 121.3266771262103,
+        "latency_per_image_ms": 8.242210399941541
+      },
+      {
+        "batch_size": 8,
+        "throughput_images_per_sec": 603.6726176583006,
+        "latency_per_image_ms": 1.6565270160490106
+      },
+      {
+        "batch_size": 16,
+        "throughput_images_per_sec": 560.837719663935,
+        "latency_per_image_ms": 1.7830469758689194
+      },
+      {
+        "batch_size": 32,
+        "throughput_images_per_sec": 528.2249287392809,
+        "latency_per_image_ms": 1.893132916666218
+      },
+      {
+        "batch_size": 64,
+        "throughput_images_per_sec": 538.1780247163191,
+        "latency_per_image_ms": 1.8581212053894498
+      }
+    ]
+  },
+  "spatial_performance": {
+    "parameters": {
+      "total": 24033861,
+      "trainable": 525829,
+      "frozen": 23508032,
+      "trainable_percent": 2.1878673593061055
+    },
+    "model_size_mb": 96.00722122192383,
+    "flops": 4087661824,
+    "gflops": 4.087661824,
+    "peak_inference_memory_mb": 214.802734375,
+    "complexity_score": 0.05459588784701494,
+    "device": "cuda"
+  },
+  "confidence_distribution": {
+    "mean_confidence_correct": 0.898453950881958,
+    "mean_confidence_incorrect": 0.5978028178215027,
+    "num_correct": 463,
+    "num_incorrect": 36
+  },
+  "per_class_error_analysis": {
+    "per_class": {
+      "Lilly": {
+        "total_samples": 97,
+        "correct": 90,
+        "error_rate": 0.07216494845360824
+      },
+      "Lotus": {
+        "total_samples": 98,
+        "correct": 88,
+        "error_rate": 0.10204081632653061
+      },
+      "Orchid": {
+        "total_samples": 108,
+        "correct": 102,
+        "error_rate": 0.05555555555555555
+      },
+      "Sunflower": {
+        "total_samples": 106,
+        "correct": 101,
+        "error_rate": 0.04716981132075472
+      },
+      "Tulip": {
+        "total_samples": 90,
+        "correct": 82,
+        "error_rate": 0.08888888888888889
+      }
+    },
+    "most_confused_pairs": [
+      {
+        "true_class": "Lotus",
+        "predicted_class": "Lilly",
+        "count": 9,
+        "error_rate": 0.09183673469387756
+      },
+      {
+        "true_class": "Orchid",
+        "predicted_class": "Lilly",
+        "count": 6,
+        "error_rate": 0.05555555555555555
+      },
+      {
+        "true_class": "Tulip",
+        "predicted_class": "Lilly",
+        "count": 4,
+        "error_rate": 0.044444444444444446
+      },
+      {
+        "true_class": "Lilly",
+        "predicted_class": "Orchid",
+        "count": 4,
+        "error_rate": 0.041237113402061855
+      },
+      {
+        "true_class": "Sunflower",
+        "predicted_class": "Lilly",
+        "count": 3,
+        "error_rate": 0.02830188679245283
+      }
+    ]
+  }
+}

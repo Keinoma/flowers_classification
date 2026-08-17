@@ -1,0 +1,78 @@
+======================================================================
+  COMPREHENSIVE MODEL EVALUATION REPORT
+======================================================================
+
+Model: FlowerResNet (Groupe B — Data Augmentation)
+Device: cuda
+Checkpoint: C:\Flowers Classification\code\src4\checkpoints\run_seed999\best_model_B_p.pth
+Test Set Size: 499 images
+
+----------------------------------------------------------------------
+CLASSIFICATION METRICS
+----------------------------------------------------------------------
+Accuracy:           92.79%
+Precision (macro):  0.9334
+Recall (macro):     0.9268
+F1-Score (macro):   0.9286
+F1-Score (weighted): 0.9292
+Validation Acc (checkpoint): 87.89%
+
+Top-K Accuracy:
+   Top-1: 92.79%
+   Top-2: 99.20%
+   Top-3: 99.80%
+
+ROC-AUC (macro): 0.9943
+
+Expected Calibration Error (ECE): 0.0553
+
+----------------------------------------------------------------------
+K-FOLD CROSS-VALIDATION
+----------------------------------------------------------------------
+Folds: 0 | Epochs per fold: 0
+Mean Accuracy: 0.00%
+Std Accuracy:  0.00%
+95% CI: [0.00%, 0.00%]
+
+----------------------------------------------------------------------
+TEMPORAL PERFORMANCE
+----------------------------------------------------------------------
+Single-image latency: 7.592 ms (+/- 1.450)
+P95 latency:          11.832 ms
+P99 latency:          13.291 ms
+Throughput:           131.7 images/sec
+
+----------------------------------------------------------------------
+SPATIAL PERFORMANCE
+----------------------------------------------------------------------
+Total parameters:     24,033,861
+Trainable parameters: 525,829 (2.2%)
+Model file size:      96.01 MB
+Estimated FLOPs:      4.088 GFLOPs
+Peak GPU memory:      214.80 MB
+Complexity score:     0.054596
+
+----------------------------------------------------------------------
+PER-CLASS ERROR ANALYSIS
+----------------------------------------------------------------------
+Lilly       :   7.2% error
+Lotus       :  10.2% error
+Orchid      :   5.6% error
+Sunflower   :   4.7% error
+Tulip       :   8.9% error
+
+----------------------------------------------------------------------
+Generated Files:
+----------------------------------------------------------------------
+   confidence_distribution_B.png
+   confusion_matrix_B.csv
+   confusion_matrix_B.png
+   confusion_matrix_normalized_B.png
+   evaluation_report_B.json
+   inference_throughput_B.png
+   reliability_diagram_B.png
+   roc_curves_B.png
+
+======================================================================
+  EVALUATION COMPLETE
+======================================================================

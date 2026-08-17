@@ -1,0 +1,340 @@
+{
+  "classification_metrics": {
+    "accuracy": 0.8937875751503006,
+    "accuracy_percent": 89.37875751503006,
+    "precision": {
+      "macro": 0.9014199369170234,
+      "micro": 0.8937875751503006,
+      "weighted": 0.9060258197575933,
+      "per_class": {
+        "Lilly": 0.7627118644067796,
+        "Lotus": 0.8137254901960784,
+        "Orchid": 0.9868421052631579,
+        "Sunflower": 1.0,
+        "Tulip": 0.9438202247191011
+      }
+    },
+    "recall": {
+      "macro": 0.8905197632616471,
+      "micro": 0.8937875751503006,
+      "weighted": 0.8937875751503006,
+      "per_class": {
+        "Lilly": 0.9278350515463918,
+        "Lotus": 0.9021739130434783,
+        "Orchid": 0.7653061224489796,
+        "Sunflower": 0.991304347826087,
+        "Tulip": 0.865979381443299
+      }
+    },
+    "f1_score": {
+      "macro": 0.890761473032029,
+      "micro": 0.8937875751503006,
+      "weighted": 0.8948385375761524,
+      "per_class": {
+        "Lilly": 0.8372093023255814,
+        "Lotus": 0.8556701030927835,
+        "Orchid": 0.8620689655172413,
+        "Sunflower": 0.9956331877729258,
+        "Tulip": 0.9032258064516129
+      }
+    },
+    "classification_report": {
+      "Lilly": {
+        "precision": 0.7627118644067796,
+        "recall": 0.9278350515463918,
+        "f1-score": 0.8372093023255814,
+        "support": 97.0
+      },
+      "Lotus": {
+        "precision": 0.8137254901960784,
+        "recall": 0.9021739130434783,
+        "f1-score": 0.8556701030927835,
+        "support": 92.0
+      },
+      "Orchid": {
+        "precision": 0.9868421052631579,
+        "recall": 0.7653061224489796,
+        "f1-score": 0.8620689655172413,
+        "support": 98.0
+      },
+      "Sunflower": {
+        "precision": 1.0,
+        "recall": 0.991304347826087,
+        "f1-score": 0.9956331877729258,
+        "support": 115.0
+      },
+      "Tulip": {
+        "precision": 0.9438202247191011,
+        "recall": 0.865979381443299,
+        "f1-score": 0.9032258064516129,
+        "support": 97.0
+      },
+      "accuracy": 0.8937875751503006,
+      "macro avg": {
+        "precision": 0.9014199369170234,
+        "recall": 0.8905197632616471,
+        "f1-score": 0.890761473032029,
+        "support": 499.0
+      },
+      "weighted avg": {
+        "precision": 0.9060258197575933,
+        "recall": 0.8937875751503006,
+        "f1-score": 0.8948385375761524,
+        "support": 499.0
+      }
+    },
+    "validation_loss": 0.36950280889868736,
+    "validation_accuracy": 86.18618618618619
+  },
+  "confusion_matrix": {
+    "raw": [
+      [
+        90,
+        7,
+        0,
+        0,
+        0
+      ],
+      [
+        5,
+        83,
+        0,
+        0,
+        4
+      ],
+      [
+        17,
+        5,
+        75,
+        0,
+        1
+      ],
+      [
+        0,
+        1,
+        0,
+        114,
+        0
+      ],
+      [
+        6,
+        6,
+        1,
+        0,
+        84
+      ]
+    ],
+    "normalized": [
+      [
+        0.9278350515463918,
+        0.07216494845360824,
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.05434782608695652,
+        0.9021739130434783,
+        0.0,
+        0.0,
+        0.043478260869565216
+      ],
+      [
+        0.17346938775510204,
+        0.05102040816326531,
+        0.7653061224489796,
+        0.0,
+        0.01020408163265306
+      ],
+      [
+        0.0,
+        0.008695652173913044,
+        0.0,
+        0.991304347826087,
+        0.0
+      ],
+      [
+        0.061855670103092786,
+        0.061855670103092786,
+        0.010309278350515464,
+        0.0,
+        0.865979381443299
+      ]
+    ]
+  },
+  "roc_auc": {
+    "per_class": {
+      "Lilly": 0.9690465199774324,
+      "Lotus": 0.9841897233201582,
+      "Orchid": 0.9794391572090182,
+      "Sunflower": 0.9995471014492754,
+      "Tulip": 0.9908447453454378
+    },
+    "macro_average": 0.9846134494602644
+  },
+  "calibration": {
+    "expected_calibration_error": 0.02454494575938144,
+    "n_bins": 10,
+    "bin_accuracies": [
+      0.0,
+      0.0,
+      0.0,
+      0.4,
+      0.6666666666666666,
+      0.5384615384615384,
+      0.6428571428571429,
+      0.8541666666666666,
+      0.8571428571428571,
+      0.9835526315789473
+    ],
+    "bin_confidences": [
+      0.0,
+      0.0,
+      0.0,
+      0.35983768105506897,
+      0.45287641882896423,
+      0.5471380949020386,
+      0.6506160497665405,
+      0.7534370422363281,
+      0.8561244010925293,
+      0.9741784930229187
+    ],
+    "bin_counts": [
+      0,
+      0,
+      0,
+      5,
+      18,
+      26,
+      28,
+      48,
+      70,
+      304
+    ]
+  },
+  "top_k_accuracy": {
+    "top1": 0.8937875751503006,
+    "top2": 0.9619238476953907,
+    "top3": 0.9939879759519038
+  },
+  "temporal_performance": {
+    "single_image": {
+      "mean_latency_ms": 6.940680100175086,
+      "std_latency_ms": 0.37655320734561687,
+      "p50_latency_ms": 6.858399981865659,
+      "p95_latency_ms": 7.493674955912865,
+      "p99_latency_ms": 8.20996399386786,
+      "min_latency_ms": 6.249999976716936,
+      "max_latency_ms": 11.532300035469234,
+      "throughput_images_per_sec": 144.07809977797044
+    },
+    "batch_benchmark": [
+      {
+        "batch_size": 1,
+        "throughput_images_per_sec": 145.10259304787496,
+        "latency_per_image_ms": 6.8916755999671295
+      },
+      {
+        "batch_size": 8,
+        "throughput_images_per_sec": 647.5088467501421,
+        "latency_per_image_ms": 1.5443804436325725
+      },
+      {
+        "batch_size": 16,
+        "throughput_images_per_sec": 581.0884982680088,
+        "latency_per_image_ms": 1.7209082660913062
+      },
+      {
+        "batch_size": 32,
+        "throughput_images_per_sec": 541.8060359479579,
+        "latency_per_image_ms": 1.845678958246329
+      },
+      {
+        "batch_size": 64,
+        "throughput_images_per_sec": 528.6493116266423,
+        "latency_per_image_ms": 1.8916131696512042
+      }
+    ]
+  },
+  "spatial_performance": {
+    "parameters": {
+      "total": 24033861,
+      "trainable": 24033861,
+      "frozen": 0,
+      "trainable_percent": 100.0
+    },
+    "model_size_mb": 275.4890203475952,
+    "flops": 4087661824,
+    "gflops": 4.087661824,
+    "peak_inference_memory_mb": 396.23974609375,
+    "complexity_score": 0.05259128721332324,
+    "device": "cuda"
+  },
+  "confidence_distribution": {
+    "mean_confidence_correct": 0.8956387639045715,
+    "mean_confidence_incorrect": 0.6638283729553223,
+    "num_correct": 446,
+    "num_incorrect": 53
+  },
+  "per_class_error_analysis": {
+    "per_class": {
+      "Lilly": {
+        "total_samples": 97,
+        "correct": 90,
+        "error_rate": 0.07216494845360824
+      },
+      "Lotus": {
+        "total_samples": 92,
+        "correct": 83,
+        "error_rate": 0.09782608695652174
+      },
+      "Orchid": {
+        "total_samples": 98,
+        "correct": 75,
+        "error_rate": 0.23469387755102042
+      },
+      "Sunflower": {
+        "total_samples": 115,
+        "correct": 114,
+        "error_rate": 0.008695652173913044
+      },
+      "Tulip": {
+        "total_samples": 97,
+        "correct": 84,
+        "error_rate": 0.13402061855670103
+      }
+    },
+    "most_confused_pairs": [
+      {
+        "true_class": "Orchid",
+        "predicted_class": "Lilly",
+        "count": 17,
+        "error_rate": 0.17346938775510204
+      },
+      {
+        "true_class": "Lilly",
+        "predicted_class": "Lotus",
+        "count": 7,
+        "error_rate": 0.07216494845360824
+      },
+      {
+        "true_class": "Tulip",
+        "predicted_class": "Lilly",
+        "count": 6,
+        "error_rate": 0.061855670103092786
+      },
+      {
+        "true_class": "Lotus",
+        "predicted_class": "Lilly",
+        "count": 5,
+        "error_rate": 0.05434782608695652
+      },
+      {
+        "true_class": "Sunflower",
+        "predicted_class": "Lotus",
+        "count": 1,
+        "error_rate": 0.008695652173913044
+      }
+    ]
+  }
+}

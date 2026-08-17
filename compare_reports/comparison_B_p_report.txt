@@ -1,0 +1,99 @@
+======================================================================
+  COMPARAISON GROUPE B' — TRANSFER LEARNING SANS AUGMENTATION
+======================================================================
+Seeds : [42, 123, 999]
+
+
+----------------------------------------------------------------------
+  GROUPE B' vs BASELINE
+----------------------------------------------------------------------
+
+ACCURACY
+   Baseline : 88.58% ± 7.09%
+   Groupe B': 91.85% ± 1.14%
+   t-stat   : -0.789
+   p-value  : 0.4740 Non significatif (α=0.05)
+
+F1_MACRO
+   Baseline : 88.35% ± 7.44%
+   Groupe B': 91.89% ± 1.27%
+   t-stat   : -0.811
+   p-value  : 0.4629 Non significatif (α=0.05)
+
+PRECISION_MACRO
+   Baseline : 88.39% ± 7.43%
+   Groupe B': 92.23% ± 1.32%
+   t-stat   : -0.880
+   p-value  : 0.4287 Non significatif (α=0.05)
+
+RECALL_MACRO
+   Baseline : 88.40% ± 7.46%
+   Groupe B': 91.77% ± 1.23%
+   t-stat   : -0.772
+   p-value  : 0.4834 Non significatif (α=0.05)
+
+----------------------------------------------------------------------
+  GROUPE B' vs GROUPE A
+----------------------------------------------------------------------
+
+ACCURACY
+   Groupe A : 66.07% ± 2.12%
+   Groupe B': 91.85% ± 1.14%
+   t-stat   : -18.529
+   p-value  : 0.0000 SIGNIFICATIF (α=0.05)
+
+F1_MACRO
+   Groupe A : 64.85% ± 2.41%
+   Groupe B': 91.89% ± 1.27%
+   t-stat   : -17.217
+   p-value  : 0.0001 SIGNIFICATIF (α=0.05)
+
+PRECISION_MACRO
+   Groupe A : 65.79% ± 2.75%
+   Groupe B': 92.23% ± 1.32%
+   t-stat   : -15.026
+   p-value  : 0.0001 SIGNIFICATIF (α=0.05)
+
+RECALL_MACRO
+   Groupe A : 65.40% ± 2.47%
+   Groupe B': 91.77% ± 1.23%
+   t-stat   : -16.583
+   p-value  : 0.0001 SIGNIFICATIF (α=0.05)
+
+----------------------------------------------------------------------
+  GROUPE B' vs GROUPE B
+----------------------------------------------------------------------
+
+ACCURACY
+   Groupe B : 90.98% ± 1.25%
+   Groupe B': 91.85% ± 1.14%
+   t-stat   : -0.889
+   p-value  : 0.4244 Non significatif (α=0.05)
+
+F1_MACRO
+   Groupe B : 90.88% ± 1.38%
+   Groupe B': 91.89% ± 1.27%
+   t-stat   : -0.927
+   p-value  : 0.4063 Non significatif (α=0.05)
+
+PRECISION_MACRO
+   Groupe B : 90.98% ± 1.29%
+   Groupe B': 92.23% ± 1.32%
+   t-stat   : -1.167
+   p-value  : 0.3079 Non significatif (α=0.05)
+
+RECALL_MACRO
+   Groupe B : 90.95% ± 1.43%
+   Groupe B': 91.77% ± 1.23%
+   t-stat   : -0.748
+   p-value  : 0.4958 Non significatif (α=0.05)
+
+======================================================================
+  TABLEAU RECAPITULATIF
+======================================================================
+Metrique                 Baseline     Groupe A     Groupe B    Groupe B'
+----------------------------------------------------------------------
+accuracy                   88.58%       66.07%       90.98%       91.85%
+f1_macro                   88.35%       64.85%       90.88%       91.89%
+precision_macro            88.39%       65.79%       90.98%       92.23%
+recall_macro               88.40%       65.40%       90.95%       91.77%
