@@ -10,21 +10,21 @@ Test Set Size: 499 images
 ----------------------------------------------------------------------
 CLASSIFICATION METRICS
 ----------------------------------------------------------------------
-Accuracy:           92.79%
-Precision (macro):  0.9334
-Recall (macro):     0.9268
-F1-Score (macro):   0.9286
-F1-Score (weighted): 0.9292
-Validation Acc (checkpoint): 87.89%
+Accuracy:           97.60%
+Precision (macro):  0.9756
+Recall (macro):     0.9757
+F1-Score (macro):   0.9756
+F1-Score (weighted): 0.9760
+Validation Acc (checkpoint): 93.19%
 
 Top-K Accuracy:
-   Top-1: 92.79%
-   Top-2: 99.20%
-   Top-3: 99.80%
+   Top-1: 97.60%
+   Top-2: 99.40%
+   Top-3: 100.00%
 
-ROC-AUC (macro): 0.9943
+ROC-AUC (macro): 0.9987
 
-Expected Calibration Error (ECE): 0.0553
+Expected Calibration Error (ECE): 0.0090
 
 ----------------------------------------------------------------------
 K-FOLD CROSS-VALIDATION
@@ -37,10 +37,10 @@ Std Accuracy:  0.00%
 ----------------------------------------------------------------------
 TEMPORAL PERFORMANCE
 ----------------------------------------------------------------------
-Single-image latency: 7.592 ms (+/- 1.450)
-P95 latency:          11.832 ms
-P99 latency:          13.291 ms
-Throughput:           131.7 images/sec
+Single-image latency: 7.241 ms (+/- 1.081)
+P95 latency:          9.405 ms
+P99 latency:          12.080 ms
+Throughput:           138.1 images/sec
 
 ----------------------------------------------------------------------
 SPATIAL PERFORMANCE
@@ -50,16 +50,16 @@ Trainable parameters: 525,829 (2.2%)
 Model file size:      96.01 MB
 Estimated FLOPs:      4.088 GFLOPs
 Peak GPU memory:      214.80 MB
-Complexity score:     0.054596
+Complexity score:     0.057426
 
 ----------------------------------------------------------------------
 PER-CLASS ERROR ANALYSIS
 ----------------------------------------------------------------------
-Lilly       :   7.2% error
-Lotus       :  10.2% error
-Orchid      :   5.6% error
-Sunflower   :   4.7% error
-Tulip       :   8.9% error
+Lilly       :   4.1% error
+Lotus       :   2.0% error
+Orchid      :   1.9% error
+Sunflower   :   1.9% error
+Tulip       :   2.2% error
 
 ----------------------------------------------------------------------
 Generated Files:
@@ -69,6 +69,7 @@ Generated Files:
    confusion_matrix_B.png
    confusion_matrix_normalized_B.png
    evaluation_report_B.json
+   evaluation_summary_B.txt
    inference_throughput_B.png
    reliability_diagram_B.png
    roc_curves_B.png

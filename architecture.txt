@@ -68,7 +68,7 @@ code/
 │   ├── predict_A.py
 │   └── train_A.py
 │
-├── src3/
+├── src3/                       ← Groupe B (avec data augmentation)
 |   ├── checkpoints/            ← Sera rempli par les runs (best_model_B.pth, etc.)
 |   ├── compare/                      
 |   ├── results/                ← Sera rempli par evaluate_model_B.py
@@ -80,6 +80,12 @@ code/
 |   ├── model_B.py              ← ResNet50 pré-entraîné + backbone gelé
 |   ├── predict_B.py            ← Inférence CLI
 |   └── train_B.py              ← Trainer (même logique, peut-être LR différent)
+│
+├── src4/            ← Groupe B' (come B mais sans data augmentation)
+│
+├── src5/            ← Groupe C
+|
+├── src5_ox102/      ← Groupe C mais sur le dataset oxford 102 classes
 |
 ├── compare_groups.py
 └── compare_groups_B.py 

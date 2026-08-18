@@ -10,21 +10,21 @@ Test Set Size: 499 images
 ----------------------------------------------------------------------
 CLASSIFICATION METRICS
 ----------------------------------------------------------------------
-Accuracy:           90.58%
-Precision (macro):  0.9076
-Recall (macro):     0.9038
-F1-Score (macro):   0.9045
-F1-Score (weighted): 0.9072
-Validation Acc (checkpoint): 89.59%
+Accuracy:           92.59%
+Precision (macro):  0.9242
+Recall (macro):     0.9240
+F1-Score (macro):   0.9240
+F1-Score (weighted): 0.9262
+Validation Acc (checkpoint): 93.79%
 
 Top-K Accuracy:
-   Top-1: 90.58%
+   Top-1: 92.59%
    Top-2: 98.20%
    Top-3: 99.40%
 
-ROC-AUC (macro): 0.9871
+ROC-AUC (macro): 0.9921
 
-Expected Calibration Error (ECE): 0.0292
+Expected Calibration Error (ECE): 0.0421
 
 ----------------------------------------------------------------------
 K-FOLD CROSS-VALIDATION
@@ -37,10 +37,10 @@ Std Accuracy:  0.00%
 ----------------------------------------------------------------------
 TEMPORAL PERFORMANCE
 ----------------------------------------------------------------------
-Single-image latency: 7.215 ms (+/- 0.640)
-P95 latency:          8.141 ms
-P99 latency:          10.118 ms
-Throughput:           138.6 images/sec
+Single-image latency: 6.854 ms (+/- 0.318)
+P95 latency:          7.424 ms
+P99 latency:          7.965 ms
+Throughput:           145.9 images/sec
 
 ----------------------------------------------------------------------
 SPATIAL PERFORMANCE
@@ -50,16 +50,16 @@ Trainable parameters: 525,829 (2.2%)
 Model file size:      96.01 MB
 Estimated FLOPs:      4.088 GFLOPs
 Peak GPU memory:      214.80 MB
-Complexity score:     0.053299
+Complexity score:     0.054478
 
 ----------------------------------------------------------------------
 PER-CLASS ERROR ANALYSIS
 ----------------------------------------------------------------------
 Lilly       :  12.4% error
-Lotus       :   8.7% error
-Orchid      :  13.3% error
+Lotus       :  10.9% error
+Orchid      :   7.1% error
 Sunflower   :   3.5% error
-Tulip       :  10.3% error
+Tulip       :   4.1% error
 
 ----------------------------------------------------------------------
 Generated Files:

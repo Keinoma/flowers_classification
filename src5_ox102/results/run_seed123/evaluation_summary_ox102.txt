@@ -1,0 +1,175 @@
+======================================================================
+  COMPREHENSIVE MODEL EVALUATION REPORT
+======================================================================
+
+Model: FlowerResNet (Groupe C - Fine-tuning)
+Device: cuda
+Checkpoint: C:\Flowers Classification\code\src5_ox102\checkpoints\run_seed123\best_model_ox102.pth
+Test Set Size: 6149 images
+
+----------------------------------------------------------------------
+CLASSIFICATION METRICS
+----------------------------------------------------------------------
+Accuracy:           82.57%
+Precision (macro):  0.8173
+Recall (macro):     0.8422
+F1-Score (macro):   0.8163
+F1-Score (weighted): 0.8239
+Validation Acc (checkpoint): 85.29%
+
+Top-K Accuracy:
+   Top-1: 82.57%
+   Top-3: 92.50%
+   Top-5: 95.45%
+
+ROC-AUC (macro): 0.9968
+
+Expected Calibration Error (ECE): 0.0112
+
+----------------------------------------------------------------------
+K-FOLD CROSS-VALIDATION
+----------------------------------------------------------------------
+Folds: 0 | Epochs per fold: 0
+Mean Accuracy: 0.00%
+Std Accuracy:  0.00%
+95% CI: [0.00%, 0.00%]
+
+----------------------------------------------------------------------
+TEMPORAL PERFORMANCE
+----------------------------------------------------------------------
+Single-image latency: 7.143 ms (+/- 0.824)
+P95 latency:          8.145 ms
+P99 latency:          11.351 ms
+Throughput:           140.0 images/sec
+
+----------------------------------------------------------------------
+SPATIAL PERFORMANCE
+----------------------------------------------------------------------
+Total parameters:     24,058,790
+Trainable parameters: 24,058,790 (100.0%)
+Model file size:      275.78 MB
+Estimated FLOPs:      4.088 GFLOPs
+Peak GPU memory:      396.62 MB
+Complexity score:     0.048580
+
+----------------------------------------------------------------------
+PER-CLASS ERROR ANALYSIS
+----------------------------------------------------------------------
+pink primrose                 :  20.0% error
+hard-leaved pocket orchid     :   7.5% error
+canterbury bells              :  55.0% error
+sweet pea                     :  55.6% error
+english marigold              :  13.3% error
+tiger lily                    :   4.0% error
+moon orchid                   :  10.0% error
+bird of paradise              :   0.0% error
+monkshood                     :   3.8% error
+globe thistle                 :   0.0% error
+snapdragon                    :  76.1% error
+colt's foot                   :   3.0% error
+king protea                   :  10.3% error
+spear thistle                 :   3.6% error
+yellow iris                   :   3.4% error
+globe-flower                  :  14.3% error
+purple coneflower             :   3.1% error
+peruvian lily                 :  22.6% error
+balloon flower                :  20.7% error
+giant white arum lily         :  25.0% error
+fire lily                     :  20.0% error
+pincushion flower             :  12.8% error
+fritillary                    :  11.3% error
+red ginger                    :  22.7% error
+grape hyacinth                :   4.8% error
+corn poppy                    :  42.9% error
+prince of wales feathers      :   5.0% error
+stemless gentian              :  15.2% error
+artichoke                     :   1.7% error
+sweet william                 :  35.4% error
+carnation                     :  28.1% error
+garden phlox                  :  20.0% error
+love in the mist              :  15.4% error
+mexican aster                 :  15.0% error
+alpine sea holly              :   4.3% error
+ruby-lipped cattleya          :  10.9% error
+cape flower                   :   0.0% error
+great masterwort              :   2.8% error
+siam tulip                    :  38.1% error
+lenten rose                   :  21.3% error
+barbeton daisy                :  23.4% error
+daffodil                      :   5.1% error
+sword lily                    :  39.1% error
+poinsettia                    :   2.7% error
+bolero deep blue              :   5.0% error
+wallflower                    :   3.4% error
+marigold                      :   0.0% error
+buttercup                     :  19.6% error
+oxeye daisy                   :   0.0% error
+common dandelion              :  20.8% error
+petunia                       :  46.2% error
+wild pansy                    :   3.1% error
+primula                       :  21.9% error
+sunflower                     :   4.9% error
+pelargonium                   :  11.8% error
+bishop of llandaff            :   5.6% error
+gaura                         :   4.3% error
+geranium                      :  14.9% error
+orange dahlia                 :   0.0% error
+pink-yellow dahlia?           :   2.2% error
+cautleya spicata              :   0.0% error
+japanese anemone              :  28.6% error
+black-eyed susan              :   2.9% error
+silverbush                    :   0.0% error
+californian poppy             :   3.7% error
+osteospermum                  :   0.0% error
+spring crocus                 :  31.8% error
+bearded iris                  :  35.3% error
+windflower                    :   5.9% error
+tree poppy                    :   2.4% error
+gazania                       :   6.9% error
+azalea                        :  47.4% error
+water lily                    :   6.3% error
+rose                          :  33.1% error
+thorn apple                   :  21.0% error
+morning glory                 :  24.1% error
+passion flower                :   8.2% error
+lotus                         :  28.2% error
+toad lily                     :   0.0% error
+anthurium                     :  15.3% error
+frangipani                    :   2.7% error
+clematis                      :  17.4% error
+hibiscus                      :  27.9% error
+columbine                     :  13.6% error
+desert-rose                   :  16.3% error
+tree mallow                   :   7.9% error
+magnolia                      :  14.0% error
+cyclamen                      :  46.3% error
+watercress                    :  26.2% error
+canna lily                    :  40.3% error
+hippeastrum                   :  16.1% error
+bee balm                      :   6.5% error
+ball moss                     :   7.7% error
+foxglove                      :   4.2% error
+bougainvillea                 :   5.6% error
+camellia                      :  57.7% error
+mallow                        :  19.6% error
+mexican petunia               :  29.0% error
+bromelia                      :   4.7% error
+blanket flower                :   0.0% error
+trumpet creeper               :  31.6% error
+blackberry lily               :   0.0% error
+
+----------------------------------------------------------------------
+Generated Files:
+----------------------------------------------------------------------
+   confidence_distribution_ox102.png
+   confusion_matrix_B.csv
+   confusion_matrix_normalized_ox102.png
+   confusion_matrix_ox102.png
+   evaluation_report_ox102.json
+   inference_throughput_ox102.png
+   reliability_diagram_ox102.png
+   roc_curves_ox102.png
+
+======================================================================
+  EVALUATION COMPLETE
+======================================================================

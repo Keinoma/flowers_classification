@@ -1,0 +1,99 @@
+======================================================================
+  COMPARAISON GROUPE C — FINE-TUNING
+======================================================================
+Seeds : [42, 123, 999]
+
+
+----------------------------------------------------------------------
+  GROUPE C vs BASELINE
+----------------------------------------------------------------------
+
+ACCURACY
+   Baseline : 88.58% ± 7.09%
+   Groupe C : 91.85% ± 1.14%
+   t-stat   : -0.789
+   p-value  : 0.4740 Non significatif (α=0.05)
+
+F1_MACRO
+   Baseline : 88.35% ± 7.44%
+   Groupe C : 91.89% ± 1.27%
+   t-stat   : -0.811
+   p-value  : 0.4629 Non significatif (α=0.05)
+
+PRECISION_MACRO
+   Baseline : 88.39% ± 7.43%
+   Groupe C : 92.23% ± 1.32%
+   t-stat   : -0.880
+   p-value  : 0.4287 Non significatif (α=0.05)
+
+RECALL_MACRO
+   Baseline : 88.40% ± 7.46%
+   Groupe C : 91.77% ± 1.23%
+   t-stat   : -0.772
+   p-value  : 0.4834 Non significatif (α=0.05)
+
+----------------------------------------------------------------------
+  GROUPE C vs GROUPE A
+----------------------------------------------------------------------
+
+ACCURACY
+   Groupe A : 66.07% ± 2.12%
+   Groupe C : 91.85% ± 1.14%
+   t-stat   : -18.529
+   p-value  : 0.0000 SIGNIFICATIF (α=0.05)
+
+F1_MACRO
+   Groupe A : 64.85% ± 2.41%
+   Groupe C : 91.89% ± 1.27%
+   t-stat   : -17.217
+   p-value  : 0.0001 SIGNIFICATIF (α=0.05)
+
+PRECISION_MACRO
+   Groupe A : 65.79% ± 2.75%
+   Groupe C : 92.23% ± 1.32%
+   t-stat   : -15.026
+   p-value  : 0.0001 SIGNIFICATIF (α=0.05)
+
+RECALL_MACRO
+   Groupe A : 65.40% ± 2.47%
+   Groupe C : 91.77% ± 1.23%
+   t-stat   : -16.583
+   p-value  : 0.0001 SIGNIFICATIF (α=0.05)
+
+----------------------------------------------------------------------
+  GROUPE C vs GROUPE B
+----------------------------------------------------------------------
+
+ACCURACY
+   Groupe B : 94.32% ± 0.46%
+   Groupe C : 91.85% ± 1.14%
+   t-stat   : 3.481
+   p-value  : 0.0253 SIGNIFICATIF (α=0.05)
+
+F1_MACRO
+   Groupe B : 94.27% ± 0.54%
+   Groupe C : 91.89% ± 1.27%
+   t-stat   : 2.994
+   p-value  : 0.0402 SIGNIFICATIF (α=0.05)
+
+PRECISION_MACRO
+   Groupe B : 94.36% ± 0.38%
+   Groupe C : 92.23% ± 1.32%
+   t-stat   : 2.677
+   p-value  : 0.0554 Non significatif (α=0.05)
+
+RECALL_MACRO
+   Groupe B : 94.30% ± 0.63%
+   Groupe C : 91.77% ± 1.23%
+   t-stat   : 3.181
+   p-value  : 0.0335 SIGNIFICATIF (α=0.05)
+
+======================================================================
+  TABLEAU RECAPITULATIF
+======================================================================
+Metrique                 Baseline     Groupe A     Groupe B     Groupe C
+------------------------------------------------------------------------
+accuracy                   88.58%       66.07%       94.32%       91.85%
+f1_macro                   88.35%       64.85%       94.27%       91.89%
+precision_macro            88.39%       65.79%       94.36%       92.23%
+recall_macro               88.40%       65.40%       94.30%       91.77%

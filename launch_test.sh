@@ -5,6 +5,20 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 
+# POUR LE GROUPE ox102 : Groupe C mais oxford 102 classes
+for seed in 42 123 999; do
+    echo "=== train baseline _ox102 seed $seed ==="
+    python src5_ox102/main_ox102.py --seed $seed
+done
+
+for seed in 42 123 999; do
+    echo "=== evaluate baseline _ox102 seed $seed ==="
+    python src5_ox102/evaluate_model_ox102.py --seed $seed
+done
+echo "=== Entrainements terminés ==="
+
+
+
 # POUR LE GROUPE C : Fine tuning
 for seed in 42 123 999; do
     echo "=== train baseline C seed $seed ==="
@@ -36,3 +50,5 @@ echo "=== Entrainements terminés ==="
 
 python compare_groups_B_p.py
 echo "=== Comparaisons terminés ==="
+
+
