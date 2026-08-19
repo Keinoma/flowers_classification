@@ -13,11 +13,11 @@ class FlowerResNet(nn.Module):
         weights = models.ResNet50_Weights.IMAGENET1K_V2 if pretrained else None
         self.backbone = models.resnet50(weights=weights)
 
-        # Gel total du backbone — aucun gradient ne passe par ResNet50
+        # Gel total du backbone — no gradient through ResNet50
         for param in self.backbone.parameters():
             param.requires_grad = False
 
-        # Remplacement de la tête FC par un classifier adapté aux fleurs
+        # Classifier 
         in_features = self.backbone.fc.in_features
         self.backbone.fc = nn.Sequential(
             nn.Linear(in_features, 256),

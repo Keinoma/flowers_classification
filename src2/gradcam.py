@@ -23,10 +23,10 @@ from pathlib import Path
 from torchvision import transforms
 from glob import glob
 from torch.utils.data import DataLoader, random_split
-from train import FlowerDataset, get_transforms
-from load_data import load_flower_data
+from train_A import FlowerDataset, get_transforms
+from load_data_A import load_flower_data
 
-from model import create_model
+from model_A import create_model
 
 # ═══════════════════════════════════════════════════════════════
 # CONFIGURATION
@@ -38,7 +38,7 @@ IMAGE_SIZE = 224
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 SRC_DIR = Path(__file__).resolve().parent
-CHECKPOINT_PATH = SRC_DIR / 'checkpoints' / 'best_model.pth'
+CHECKPOINT_PATH = SRC_DIR / 'checkpoints' / 'run_seed42' / 'best_model_A.pth'
 # Mêmes transforms que predict.py
 transform = transforms.Compose([
     transforms.Resize((IMAGE_SIZE, IMAGE_SIZE)),
@@ -416,7 +416,7 @@ def main():
     if use_test_set:
         run_test_set(model, max_images=max_images, misclassified_only=misclassified_only)
     else:
-        image_path = sys.argv[1]
+        image_path = f"C:/Flowers Classification/code/{sys.argv[1]}"
         if not os.path.exists(image_path):
             print(f"❌ Chemin introuvable: {image_path}")
             sys.exit(1)
