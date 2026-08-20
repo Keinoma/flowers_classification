@@ -122,7 +122,7 @@ class Trainer:
         print(f"      Backbone : LR={lr_backbone}, params={len(backbone_params)}")
         print(f"      Tête     : LR={lr_head}, params={len(head_params)}")
 
-        # Scheduler : réduit le LR si la validation stagne
+        # Scheduler : reduces LR if the validation stagnates
         self.scheduler = optim.lr_scheduler.ReduceLROnPlateau(
             self.optimizer, mode='min', patience=3, factor=0.5, verbose=True
         )

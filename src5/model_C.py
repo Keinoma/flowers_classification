@@ -14,8 +14,7 @@ class FlowerResNet(nn.Module):
         weights = models.ResNet50_Weights.IMAGENET1K_V2 if pretrained else None
         self.backbone = models.resnet50(weights=weights)
 
-        # Pas de gel du backbone — tous les parametres sont entrainables
-        # (c'est la difference fondamentale avec le Groupe B)
+        ## Here, we would have frozen the backbone in the previous algorithm
 
         # Remplacement de la tete FC par un classifier adapte aux fleurs
         in_features = self.backbone.fc.in_features

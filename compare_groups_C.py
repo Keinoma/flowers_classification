@@ -80,7 +80,7 @@ def print_comparison(results, metric, name1, name2):
 
 def save_text_report(results_c_vs_base, results_c_vs_a, results_c_vs_b,
                      baseline, groupe_a, groupe_b, groupe_c, seeds,
-                     output_path="comparison_C_report.txt"):
+                     output_path="comparison_C_mod_report.txt"):
     """Sauvegarde le rapport texte complet dans un fichier."""
     lines = []
     lines.append("=" * 70)
@@ -155,7 +155,7 @@ def main():
     parser.add_argument('--src3', default='src5', help='Dossier groupe B')
     parser.add_argument('--src4', default='src4', help='Dossier groupe C')
     parser.add_argument('--seeds', nargs='+', type=int, default=[42, 123, 999])
-    parser.add_argument('--output', default='comparison_C_report.png')
+    parser.add_argument('--output', default='comparison_C_mod_report.png')
     args = parser.parse_args()
 
     seeds = args.seeds
@@ -303,7 +303,7 @@ def main():
 
     save_text_report(results_c_vs_base, results_c_vs_a, results_c_vs_b,
                      baseline, groupe_a, groupe_b, groupe_c, seeds,
-                     output_path="comparison_C_report.txt")
+                     output_path="comparison_C_mod_report.txt")
 
     plt.savefig(args.output, dpi=150, bbox_inches='tight')
     print(f"\n📊 Graphique sauvegarde : {args.output}")
